@@ -6,9 +6,15 @@ using TMPro;
 public class GameManagerSingelton : MonoBehaviour {
     public static GameManagerSingelton instance = null;
 
+    private SceneLoader sceneLoader;
+
+    public TextMeshProUGUI playerLivesText;
+
     public TextMeshProUGUI levelText;
     public bool displayNextLevel = false;
     public int currentLevel = 0;
+
+    public int playerLives;
 
     private void Awake()
     {
@@ -25,8 +31,20 @@ public class GameManagerSingelton : MonoBehaviour {
     // Use this for initialization
     void Start () {
         //displayNextLevel = true;
+        sceneLoader = GameObject.FindObjectOfType<SceneLoader>(); 
         levelText.enabled = false;
+        playerLives = 3;
 	}
+
+    public void DecreasePlayerLive()
+    {
+        playerLives--;
+    }
+
+    public void DisplayPlayerLives()
+    {
+        playerLivesText.SetText(playerLives.ToString());
+    }
 
     public void SwitchLevel()
     {
@@ -67,6 +85,11 @@ public class GameManagerSingelton : MonoBehaviour {
         if (displayNextLevel)
         {
             SwitchLevel();
+        }
+
+        if(playerLives == 0)
+        {
+            sceneLoader.LoadGameOverScene();
         }
 	}
 }
