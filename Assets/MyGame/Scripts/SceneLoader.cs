@@ -1,11 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class SceneLoader : MonoBehaviour {
 
-    enum Scenes { Intro, Main, GameOver};
+    enum Scenes {Intro, Main, GameOver};
 
     public void LoadIntroScene()
     {
@@ -21,4 +19,5 @@ public class SceneLoader : MonoBehaviour {
     {
         SceneManager.LoadScene((int)Scenes.GameOver);
     }
+
 }
