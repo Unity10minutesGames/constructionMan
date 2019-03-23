@@ -6,10 +6,10 @@ public class UndergroundBrick : MonoBehaviour
     [System.Serializable] public enum BrickState { Intact, Brocken, Destroyed, Repair, Waiting };
 
     private Image img;
-    private BoxCollider2D colliderOuter, colliderInner;
+    private BoxCollider2D colliderOuter = null;
+    private BoxCollider2D colliderInner = null;
     private Vector3 initPosRepairBrick = new Vector3(0.0f, 1225.0f, -0.1f);
     private bool switchState = false;
-    private int row = -1, column = -1;
     private float timerBrocken = 0.0f, timerRepair = 0.0f;
 
     [SerializeField] private string bickName = "none";
@@ -52,22 +52,6 @@ public class UndergroundBrick : MonoBehaviour
         {
             timerRepair = 0.0f;
         }
-    }
-
-    public void SetArrayPos (int row, int column)
-    {
-        this.row = row;
-        this.column = column;
-    }
-
-    public int GetArrayPosRow()
-    {
-        return row;
-    }
-
-    public int GetArrayPosColumn()
-    {
-        return column;
     }
 
     public BrickState GetBrickState()
