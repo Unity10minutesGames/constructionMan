@@ -87,14 +87,12 @@ public class UndergroundBrick : MonoBehaviour
     {
         gameObject.SetActive(false);
         transform.localPosition = initPosRepairBrick;
-        SwitchState(BrickState.RepairInactive);
         GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
-        Debug.Log("---------------------------------------------------------- reset Repair Brick");
+        SwitchState(BrickState.RepairInactive);
     }
 
     public void ResetIntactBrick()
     {
-        Debug.Log("name "+GetName());
         SwitchState(BrickState.Intact);
         SetImageSolid();
         Debug.Log("---------------------------------------------------------- reset Intact Brick");
