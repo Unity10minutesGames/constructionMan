@@ -8,12 +8,14 @@ public class RepairBrickSpawner : MonoBehaviour
     float timer = 0.0f;
     float delay = 4.0f;
     int maxSpawnableObjects = 5;
+    int indexRepairBrick = 0;
 
     GameObject[] spawnableObjects;
 
     private void Start()
     {
         spawnableObjects = GetSpawnableObjectPool(maxSpawnableObjects);
+        Debug.Log("Size of spawnable Objecs" + spawnableObjects.Length);
     }
 
     public void spawnRepairBrick()
@@ -22,20 +24,33 @@ public class RepairBrickSpawner : MonoBehaviour
         {
             if (!spawnableObjects[i].activeSelf && spawnableObjects[i].GetComponent<UndergroundBrick>().GetBrickState() == UndergroundBrick.BrickState.Waiting)
             {
-                spawnableObjects[i].SetActive(true);
-                spawnableObjects[i].transform.localPosition = new Vector3(Random.Range(0f, 13316f), 1225f, -0.1f);
-                spawnableObjects[i].transform.localPosition = new Vector3(0.0f, 1225f, -0.1f);
-                spawnableObjects[i].GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
-                spawnableObjects[i].GetComponent<UndergroundBrick>().SetBrickState(UndergroundBrick.BrickState.Repair);
+                spawnableObjects[i].gameObject.GetComponent<UndergroundBrick>().SetBrickState(UndergroundBrick.BrickState.Repair);
+                spawnableObjects[i].transform.localPosition = new Vector3(Random.Range(0f, 1180f), 1225f, -0.1f);
+                //spawnableObjects[i].gameObject.transform.localPosition = new Vector3(0.0f, 1225f, -0.1f);
+                spawnableObjects[i].gameObject.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
+                spawnableObjects[i].gameObject.SetActive(true);
+
+                //Debug.Log("Concrete ObjectsSpawend: " + spawnableObjects[i].gameObject.GetComponent<UndergroundBrick>().GetBrickState());
+                //foreach (var item in spawnableObjects)
+                //{
+                //    Debug.Log("Brickname " + item.gameObject.GetComponent<UndergroundBrick>().GetName());
+                //}
+                //delay = 20f;
                 return;
             }
         }
+
+        Debug.Log("General ObjectsSpawend");
+        
     }
 
     private GameObject GetRepairBrick()
     {
         GameObject go = brick.GetComponent<UndergroundBrick>().GetUndergroundBrick(parentContainer.transform);
         go.GetComponent<UndergroundBrick>().SetupRepairBrick();
+        go.GetComponent<UndergroundBrick>().SetName("Brick" + indexRepairBrick);
+        go.GetComponent<UndergroundBrick>().SetCollidersEnabled();
+        indexRepairBrick++;
         return go;
     }
 

@@ -52,6 +52,7 @@ public class BrickManager : MonoBehaviour
             {
                 var go = undergroundBrick.GetUndergroundBrick (parentContainer.transform);
                 go.transform.localPosition = new Vector3(i * pixelSizeImageX, j*pixelSizeImageY, -0.1f);
+                go.GetComponent<UndergroundBrick>().SetName("wall-r"+i+"-c"+j);
                 underground[i,j] = go;
             }
         }
