@@ -5,10 +5,13 @@ public class UndergroundBrick : MonoBehaviour
 {
     [System.Serializable] public enum BrickState { Intact, Brocken, Destroyed, RepairActive, RepairInactive };
 
+    private const string COLLIDERINNER = "ColliderInner";
+    private const string COLLIDEROUTER = "ColliderOuter";
+    private const float delayToRepair = 5.0f;
     private Image img;
     private BoxCollider2D colliderOuter = null;
     private BoxCollider2D colliderInner = null;
-    private Vector3 initPosRepairBrick = new Vector3(0.0f, 1225.0f, -0.1f);
+    private Vector3 initPosRepairBrick = new Vector3 (0.0f, 1225.0f, -0.1f);
     private bool switchState = false;
     private float timerBrocken = 0.0f;
     private float timerRepair = 0.0f;
@@ -22,17 +25,17 @@ public class UndergroundBrick : MonoBehaviour
     public bool restoreWallBrick = false;
     public bool restoreOnHold = false;
 
-    void Start()
+    void Start ()
     {
         DoInitializeColliders();
     }
 
-    public void SetName(string name)
+    public void SetName (string name)
     {
         brickName = name;
     }
 
-    public string GetName()
+    public string GetName ()
     {
         return brickName;
     }
@@ -40,25 +43,25 @@ public class UndergroundBrick : MonoBehaviour
     public void SwitchState (BrickState tmpBrickState)
     {
         switchState = true;
-        DoSetState(tmpBrickState);
-        DoSetBrickColor();
-        DoSetBrickColliders();
-        DoResetTimers(tmpBrickState);
-        DoSetSpecialBrickProperties(tmpBrickState);
+        DoSetState (tmpBrickState);
+        DoSetBrickColor ();
+        DoSetBrickColliders ();
+        DoResetTimers (tmpBrickState);
+        DoSetSpecialBrickProperties (tmpBrickState);
     }
 
-    public BrickState GetBrickState()
+    public BrickState GetBrickState ()
     {
         return brickState;
     }
 
-    public GameObject GetUndergroundBrick(Transform parentTransform)
+    public GameObject GetUndergroundBrick (Transform parentTransform)
     {
-        var go = Instantiate(gameObject, Vector3.zero, Quaternion.identity, parentTransform);
+        var go = Instantiate (gameObject, Vector3.zero, Quaternion.identity, parentTransform);
         return go;
     }
 
-    public void DoSetupRepairBrick()
+    public void DoSetupRepairBrick ()
     {
         if (gameObject.GetComponent<Rigidbody2D>() == null)
         {
@@ -68,15 +71,15 @@ public class UndergroundBrick : MonoBehaviour
         DoResetRepairBrick();
     }
 
-    public void DoResetRepairBrick()
+    public void DoResetRepairBrick ()
     {
-        gameObject.SetActive(false);
+        gameObject.SetActive (false);
         transform.localPosition = initPosRepairBrick;
         GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
-        SwitchState(BrickState.RepairInactive);
+        SwitchState (BrickState.RepairInactive);
     }
 
-    public void DoSetBrickColliders()
+    public void DoSetBrickColliders ()
     {
         if (colliderInner == null || colliderOuter == null)
         {
@@ -100,12 +103,12 @@ public class UndergroundBrick : MonoBehaviour
         }
     }
 
-    private void DoSetState(BrickState tmpBrickState)
+    private void DoSetState (BrickState tmpBrickState)
     {
         brickState = tmpBrickState;
     }
 
-    private void DoResetTimers(BrickState tmpBrickState)
+    private void DoResetTimers (BrickState tmpBrickState)
     {
         switch (tmpBrickState)
         {
@@ -121,22 +124,22 @@ public class UndergroundBrick : MonoBehaviour
         }
     }
 
-    private void DoInitializeColliders()
+    private void DoInitializeColliders ()
     {
         foreach (var item in GetComponentsInChildren<BoxCollider2D>())
         {
-            if (item.name == "ColliderInner")
+            if (item.name == COLLIDERINNER)
             {
                 colliderInner = item;
             }
-            else if (item.name == "ColliderOuter")
+            else if (item.name == COLLIDEROUTER)
             {
                 colliderOuter = item;
             }
         }
     }
 
-    private void OnTriggerExit2D(Collider2D collision)
+    private void OnTriggerExit2D (Collider2D collision)
     {
         gameObject.GetComponent<UndergroundBrick>().restoreOnHold = false;
         collision.GetComponentInParent<UndergroundBrick>().restoreOnHold = false;
@@ -144,24 +147,23 @@ public class UndergroundBrick : MonoBehaviour
         if (restoreWallBrick)
         {
             UndergroundBrick ubrick = collision.gameObject.GetComponentInParent<UndergroundBrick>();
-            DoResetRepairBrick();
+            DoResetRepairBrick ();
             restoreWallBrick = false;
-            Debug.Log(ubrick.GetName());
-            ubrick.SwitchState(BrickState.Intact);
+            ubrick.SwitchState (BrickState.Intact);
             ubrick.restoreRepairBrick = false;
         }
     }
 
-    private void OnTriggerStay2D(Collider2D collision)
+    private void OnTriggerStay2D (Collider2D collision)
     {
-        if (brickState == BrickState.RepairActive && collision.GetComponentInParent<UndergroundBrick>().GetBrickState() == BrickState.Destroyed)
+        if (brickState == BrickState.RepairActive && collision.GetComponentInParent<UndergroundBrick>().GetBrickState () == BrickState.Destroyed)
         {
             gameObject.GetComponent<UndergroundBrick>().restoreOnHold = true;
             collision.GetComponentInParent<UndergroundBrick>().restoreOnHold = true;
         }
     }
 
-    private void DoSetSpecialBrickProperties(BrickState tmpState)
+    private void DoSetSpecialBrickProperties (BrickState tmpState)
     {
         switch (tmpState)
         {
@@ -174,7 +176,7 @@ public class UndergroundBrick : MonoBehaviour
         }
     }
 
-    private void DoSetBrickColor()
+    private void DoSetBrickColor ()
     {
         if (!switchState)
         {
@@ -191,32 +193,32 @@ public class UndergroundBrick : MonoBehaviour
                 break;
             case BrickState.Intact:
                 gameObject.GetComponent<Image>().color = Color.white;
-                SetImageSolid();
+                SetImageSolid ();
                 break;
             case BrickState.Brocken:
                 gameObject.GetComponent<Image>().color = Color.black;
                 break;
             case BrickState.Destroyed:
-                SetImageTransparent();
+                SetImageTransparent ();
                 break;
         }
 
         switchState = false;
     }
 
-    private void SetImageTransparent()
+    private void SetImageTransparent ()
     {
-        Color tempColor = GetTemporalColor(0.0f);
+        Color tempColor = GetTemporalColor (0.0f);
         gameObject.GetComponent<Image>().color = tempColor;
     }
 
     private void SetImageSolid()
     {
-        Color tempColor = GetTemporalColor(1.0f);
+        Color tempColor = GetTemporalColor (1.0f);
         gameObject.GetComponent<Image>().color = tempColor;
     }
 
-    private Color GetTemporalColor(float alpha)
+    private Color GetTemporalColor (float alpha)
     {
         var tempColor = gameObject.GetComponent<Image>().color;
         tempColor.a = alpha;
@@ -230,38 +232,36 @@ public class UndergroundBrick : MonoBehaviour
 
         if (restoreOnHold)
         {
-            Debug.Log("Restore on hold in update: " + restoreOnHold + " go name " + this.brickName + " timer " + timerRepair);
-            if (timerRepair > 5.0f)
+            if (timerRepair > delayToRepair)
             {
                 restoreRepairBrick = true;
                 restoreOnHold = false;
-                DoResetTimers(brickState);
+                DoResetTimers (brickState);
             }
         }
-
-        DoSetBrickColor();
 
         if (brickState == BrickState.Brocken && !switchState)
         {
-            if (timerBrocken > 5.0f)
+            if (timerBrocken > delayToRepair)
             {
-                DoResetTimers(brickState);
-                SwitchState(BrickState.Destroyed);
+                DoResetTimers (brickState);
+                SwitchState (BrickState.Destroyed);
             }
         }
 
-        if (brickState == BrickState.Destroyed && restoreRepairBrick)
+        if (restoreRepairBrick)
         {
-            restoreRepairBrick = false;
+            switch (brickState)
+            {
+                case BrickState.Destroyed:
+                    restoreRepairBrick = false;
+                    break;
+                case BrickState.RepairActive:
+                    restoreRepairBrick = false;
+                    restoreWallBrick = true;
+                    colliderOuter.enabled = false;
+                    break;
+            }
         }
-
-        if (brickState == BrickState.RepairActive && restoreRepairBrick)
-        {
-            restoreWallBrick = true;
-            restoreRepairBrick = false;
-
-            colliderOuter.enabled = false;
-        }
-
     }
 }
