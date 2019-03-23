@@ -37,6 +37,7 @@ public class UndergroundBrick : MonoBehaviour
         switchState = true;
         SetState(tmpBrickState);
         SetBrickColor();
+        SetBrickProperties(tmpBrickState);
         SetCollidersEnabled();
         ResetTimers(tmpBrickState);
     }
@@ -219,11 +220,23 @@ public class UndergroundBrick : MonoBehaviour
 
     }
 
+    private void SetBrickProperties(BrickState tmpState)
+    {
+        switch (tmpState)
+        {
+            case BrickState.RepairInactive:
+                GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
+                break;
+            case BrickState.Intact:
+                colliderOuter.enabled = true;
+                break;
+        }
+    }
+
     private void SetBrickColor()
     {
         if (brickState == BrickState.RepairInactive && switchState)
         {
-            GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
             gameObject.GetComponent<Image>().color = Color.gray;
         }
         else if (brickState == BrickState.RepairActive && switchState)
@@ -233,7 +246,6 @@ public class UndergroundBrick : MonoBehaviour
         else if (brickState == BrickState.Intact && switchState)
         {
             gameObject.GetComponent<Image>().color = Color.white;
-            colliderOuter.enabled = true;
             SetImageSolid();
         }
         else if (brickState == BrickState.Brocken && switchState)
@@ -247,6 +259,8 @@ public class UndergroundBrick : MonoBehaviour
 
         switchState = false;
     }
+
+
 
     private void SetImageTransparent()
     {
