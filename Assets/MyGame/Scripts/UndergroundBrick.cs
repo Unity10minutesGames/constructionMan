@@ -225,32 +225,27 @@ public class UndergroundBrick : MonoBehaviour
         {
             GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
             gameObject.GetComponent<Image>().color = Color.gray;
-            switchState = false;
-
         }
         else if (brickState == BrickState.RepairActive && switchState)
         {
             gameObject.GetComponent<Image>().color = Color.yellow;
-            switchState = false;
         }
         else if (brickState == BrickState.Intact && switchState)
         {
             gameObject.GetComponent<Image>().color = Color.white;
             colliderOuter.enabled = true;
             SetImageSolid();
-
-            switchState = false;
         }
         else if (brickState == BrickState.Brocken && switchState)
         {
             gameObject.GetComponent<Image>().color = Color.black;
-            switchState = false;
         }
         else if (brickState == BrickState.Destroyed && switchState)
         {
             SetImageTransparent();
-            switchState = false;
         }
+
+        switchState = false;
     }
 
     private void SetImageTransparent()
