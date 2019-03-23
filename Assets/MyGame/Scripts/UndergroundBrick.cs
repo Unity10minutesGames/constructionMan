@@ -263,19 +263,22 @@ public class UndergroundBrick : MonoBehaviour
         switchState = false;
     }
 
-
-
     private void SetImageTransparent()
     {
-        var tempColor = gameObject.GetComponent<Image>().color;
-        tempColor.a = 0.0f;
+        Color tempColor = GetTemporalColor(0.0f);
         gameObject.GetComponent<Image>().color = tempColor;
     }
 
     private void SetImageSolid()
     {
-        var tempColor = gameObject.GetComponent<Image>().color;
-        tempColor.a = 1.0f;
+        Color tempColor = GetTemporalColor(1.0f);
         gameObject.GetComponent<Image>().color = tempColor;
+    }
+
+    private Color GetTemporalColor(float alpha)
+    {
+        var tempColor = gameObject.GetComponent<Image>().color;
+        tempColor.a = alpha;
+        return tempColor;
     }
 }
