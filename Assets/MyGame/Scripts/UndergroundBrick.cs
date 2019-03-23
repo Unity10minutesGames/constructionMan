@@ -235,26 +235,29 @@ public class UndergroundBrick : MonoBehaviour
 
     private void SetBrickColor()
     {
-        if (brickState == BrickState.RepairInactive && switchState)
+        if (!switchState)
         {
-            gameObject.GetComponent<Image>().color = Color.gray;
+            return;
         }
-        else if (brickState == BrickState.RepairActive && switchState)
+
+        switch (brickState)
         {
-            gameObject.GetComponent<Image>().color = Color.yellow;
-        }
-        else if (brickState == BrickState.Intact && switchState)
-        {
-            gameObject.GetComponent<Image>().color = Color.white;
-            SetImageSolid();
-        }
-        else if (brickState == BrickState.Brocken && switchState)
-        {
-            gameObject.GetComponent<Image>().color = Color.black;
-        }
-        else if (brickState == BrickState.Destroyed && switchState)
-        {
-            SetImageTransparent();
+            case BrickState.RepairInactive:
+                gameObject.GetComponent<Image>().color = Color.gray;
+                break;
+            case BrickState.RepairActive:
+                gameObject.GetComponent<Image>().color = Color.yellow;
+                break;
+            case BrickState.Intact:
+                gameObject.GetComponent<Image>().color = Color.white;
+                SetImageSolid();
+                break;
+            case BrickState.Brocken:
+                gameObject.GetComponent<Image>().color = Color.black;
+                break;
+            case BrickState.Destroyed:
+                SetImageTransparent();
+                break;
         }
 
         switchState = false;
