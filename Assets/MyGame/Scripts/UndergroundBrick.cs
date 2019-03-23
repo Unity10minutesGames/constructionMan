@@ -99,6 +99,11 @@ public class UndergroundBrick : MonoBehaviour
 
     void Start ()
     {
+        InitializeColliders();
+    }
+
+    private void InitializeColliders()
+    {
         foreach (var item in GetComponentsInChildren<BoxCollider2D>())
         {
             if (item.name == "ColliderInner")
@@ -135,38 +140,26 @@ public class UndergroundBrick : MonoBehaviour
     {
         if (colliderInner == null || colliderOuter == null)
         {
-            Debug.Log("colliders null");
             return;
         }
 
         SetBrickColliders();
-        Debug.Log("colliders enabled");
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        Debug.Log("On Trigger EXIT: " + collision.gameObject.GetComponentInParent<UndergroundBrick>().GetName() + "go: " + brickName);
-        Debug.Log("wall brick restore: " + restoreWallBrick);
         gameObject.GetComponent<UndergroundBrick>().restoreOnHold = false;
         collision.GetComponentInParent<UndergroundBrick>().restoreOnHold = false;
 
         if (restoreWallBrick)
         {
             UndergroundBrick ubrick = collision.gameObject.GetComponentInParent<UndergroundBrick>();
-            Debug.Log("in 1 ---------------------------------------------!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
             ResetRepairBrick();
             restoreWallBrick = false;
-            Debug.Log("in 1.5 ---------------------------------------------!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
             Debug.Log(ubrick.GetName());
             ubrick.ResetIntactBrick();
             ubrick.restoreRepairBrick = false;
-            
-            Debug.Log("in 2 ---------------------------------------------!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         }
-       
-
-        //ResetTimers(gameObject.GetComponent<UndergroundBrick>().GetBrickState());
-        //ResetTimers(collision.GetComponentInParent<UndergroundBrick>().GetBrickState());
     }
 
     private void OnTriggerStay2D(Collider2D collision)
