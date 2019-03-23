@@ -48,17 +48,17 @@ public class UndergroundBrick : MonoBehaviour
 
     private void ResetTimers(BrickState tmpBrickState)
     {
-        if (tmpBrickState == BrickState.Brocken)
+        switch (tmpBrickState)
         {
-            timerBrocken = 0.0f;
-        }
-        else if (tmpBrickState == BrickState.RepairActive)
-        {
-            timerRepair = 0.0f;
-        }
-        else if (tmpBrickState == BrickState.Destroyed)
-        {
-            timerRepair = 0.0f;
+            case BrickState.Brocken:
+                timerBrocken = 0.0f;
+                break;
+            case BrickState.RepairActive:
+                timerRepair = 0.0f;
+                break;
+            case BrickState.Destroyed:
+                timerRepair = 0.0f;
+                break;
         }
     }
 
