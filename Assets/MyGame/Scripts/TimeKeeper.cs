@@ -8,7 +8,7 @@ public class TimeKeeper : MonoBehaviour {
 
     void Start ()
     {
-        timer = 0;
+        timer = 0.0f;
         timerText = GetComponent<TextMeshProUGUI>();
 	}
 	

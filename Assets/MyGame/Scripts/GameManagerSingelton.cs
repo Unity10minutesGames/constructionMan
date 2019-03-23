@@ -20,7 +20,6 @@ public class GameManagerSingelton : MonoBehaviour {
     {
         if (instance == null)
         {
-            Debug.Log("Create Instance");
             instance = this;
         }
         else if (instance != this) Destroy(gameObject);
