@@ -94,8 +94,6 @@ public class UndergroundBrick : MonoBehaviour
     public void ResetIntactBrick()
     {
         SwitchState(BrickState.Intact);
-        SetImageSolid();
-        Debug.Log("---------------------------------------------------------- reset Intact Brick");
     }
 
     void Start ()
@@ -239,6 +237,7 @@ public class UndergroundBrick : MonoBehaviour
         {
             gameObject.GetComponent<Image>().color = Color.white;
             colliderOuter.enabled = true;
+            SetImageSolid();
 
             switchState = false;
         }
