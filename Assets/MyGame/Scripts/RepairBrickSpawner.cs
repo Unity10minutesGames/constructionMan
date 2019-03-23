@@ -51,9 +51,9 @@ public class RepairBrickSpawner : MonoBehaviour
     private GameObject GetRepairBrick()
     {
         GameObject go = brick.GetComponent<UndergroundBrick>().GetUndergroundBrick(parentContainer.transform);
-        go.GetComponent<UndergroundBrick>().SetupRepairBrick();
+        go.GetComponent<UndergroundBrick>().DoSetupRepairBrick();
         go.GetComponent<UndergroundBrick>().SetName("Brick" + indexRepairBrick);
-        go.GetComponent<UndergroundBrick>().SetCollidersEnabled();
+        go.GetComponent<UndergroundBrick>().DoSetBrickColliders();
         indexRepairBrick++;
         return go;
     }
