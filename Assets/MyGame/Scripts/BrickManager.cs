@@ -40,7 +40,7 @@ public class BrickManager : MonoBehaviour
         {
             if (undergroundBrick.GetBrickState() == UndergroundBrick.BrickState.Brocken)
             {
-                undergroundBrick.SetBrickState(UndergroundBrick.BrickState.Destroyed);
+                undergroundBrick.SwitchState(UndergroundBrick.BrickState.Destroyed);
             }
         }
     } 
@@ -63,7 +63,7 @@ public class BrickManager : MonoBehaviour
     {
         if (underground[row, column].GetComponent<UndergroundBrick>().GetBrickState() == UndergroundBrick.BrickState.Intact)
         {
-            underground[row, column].GetComponent<UndergroundBrick>().SetBrickState(UndergroundBrick.BrickState.Brocken);
+            underground[row, column].GetComponent<UndergroundBrick>().SwitchState(UndergroundBrick.BrickState.Brocken);
         }
     }
 
@@ -72,7 +72,7 @@ public class BrickManager : MonoBehaviour
     {
         if (underground[row, column].GetComponent<UndergroundBrick>().GetBrickState() == UndergroundBrick.BrickState.Brocken)
         {
-            underground[row, column].GetComponent<UndergroundBrick>().SetBrickState(UndergroundBrick.BrickState.Destroyed);
+            underground[row, column].GetComponent<UndergroundBrick>().SwitchState(UndergroundBrick.BrickState.Destroyed);
         }
     }
 

@@ -32,13 +32,18 @@ public class UndergroundBrick : MonoBehaviour
         return brickName;
     }
 
-    public void SetBrickState (BrickState tmpBrickState)
+    public void SwitchState (BrickState tmpBrickState)
+    {
+        switchState = true;
+        SetState(tmpBrickState);
+        SetBrickColor();
+        SetCollidersEnabled();
+        ResetTimers(tmpBrickState);
+    }
+
+    private void SetState(BrickState tmpBrickState)
     {
         brickState = tmpBrickState;
-        switchState = true;
-
-        SetCollidersEnabled();
-        ResetTimers(brickState);
     }
 
     private void ResetTimers(BrickState tmpBrickState)
@@ -82,7 +87,7 @@ public class UndergroundBrick : MonoBehaviour
     {
         gameObject.SetActive(false);
         transform.localPosition = initPosRepairBrick;
-        SetBrickState(BrickState.RepairInactive);
+        SwitchState(BrickState.RepairInactive);
         GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
         Debug.Log("---------------------------------------------------------- reset Repair Brick");
     }
@@ -90,7 +95,7 @@ public class UndergroundBrick : MonoBehaviour
     public void ResetIntactBrick()
     {
         Debug.Log("name "+GetName());
-        SetBrickState(BrickState.Intact);
+        SwitchState(BrickState.Intact);
         SetImageSolid();
         Debug.Log("---------------------------------------------------------- reset Intact Brick");
     }
@@ -199,7 +204,7 @@ public class UndergroundBrick : MonoBehaviour
             if (timerBrocken > 5.0f)
             {
                 ResetTimers(brickState);
-                SetBrickState(BrickState.Destroyed);
+                SwitchState(BrickState.Destroyed);
             }
         }
 

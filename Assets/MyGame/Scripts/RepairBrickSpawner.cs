@@ -25,7 +25,7 @@ public class RepairBrickSpawner : MonoBehaviour
         {
             if (!spawnableObjects[i].activeSelf && spawnableObjects[i].GetComponent<UndergroundBrick>().GetBrickState() == UndergroundBrick.BrickState.RepairInactive)
             {
-                spawnableObjects[i].gameObject.GetComponent<UndergroundBrick>().SetBrickState(UndergroundBrick.BrickState.RepairActive);
+                spawnableObjects[i].gameObject.GetComponent<UndergroundBrick>().SwitchState(UndergroundBrick.BrickState.RepairActive);
                 //spawnableObjects[i].transform.localPosition = new Vector3(Random.Range(0f, 1180f), 1225f, -0.1f);
                 if (testing)
                 {
