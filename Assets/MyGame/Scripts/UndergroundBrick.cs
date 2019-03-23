@@ -13,7 +13,7 @@ public class UndergroundBrick : MonoBehaviour
     private float timerBrocken = 0.0f;
     private float timerRepair = 0.0f;
 
-    [SerializeField] private string bickName = "none";
+    [SerializeField] private string brickName = "none";
     [SerializeField] private BrickState brickState = BrickState.Intact;
 
     public bool restoreRepairBrick = false;
@@ -22,12 +22,12 @@ public class UndergroundBrick : MonoBehaviour
 
     public void SetName(string name)
     {
-        bickName = name;
+        brickName = name;
     }
 
     public string GetName()
     {
-        return bickName;
+        return brickName;
     }
 
     public void SetBrickState (BrickState tmpBrickState)
@@ -141,7 +141,7 @@ public class UndergroundBrick : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        Debug.Log("On Trigger EXIT: " + collision.gameObject.GetComponentInParent<UndergroundBrick>().GetName() + "go: " + bickName);
+        Debug.Log("On Trigger EXIT: " + collision.gameObject.GetComponentInParent<UndergroundBrick>().GetName() + "go: " + brickName);
         Debug.Log("wall brick restore: " + restoreWallBrick);
         gameObject.GetComponent<UndergroundBrick>().restoreOnHold = false;
         collision.GetComponentInParent<UndergroundBrick>().restoreOnHold = false;
@@ -181,7 +181,7 @@ public class UndergroundBrick : MonoBehaviour
 
         if (restoreOnHold)
         {
-            Debug.Log("Restore on hold in update: " + restoreOnHold + " go name " + this.bickName + " timer " + timerRepair);
+            Debug.Log("Restore on hold in update: " + restoreOnHold + " go name " + this.brickName + " timer " + timerRepair);
             if (timerRepair > 5.0f)
             {
                 restoreRepairBrick = true;
