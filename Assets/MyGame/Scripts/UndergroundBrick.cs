@@ -3,14 +3,15 @@ using UnityEngine.UI;
 
 public class UndergroundBrick : MonoBehaviour
 {
-    [System.Serializable] public enum BrickState { Intact, Brocken, Destroyed, Repair, Waiting };
+    [System.Serializable] public enum BrickState { Intact, Brocken, Destroyed, RepairActive, RepairInactive };
 
     private Image img;
     private BoxCollider2D colliderOuter = null;
     private BoxCollider2D colliderInner = null;
     private Vector3 initPosRepairBrick = new Vector3(0.0f, 1225.0f, -0.1f);
     private bool switchState = false;
-    private float timerBrocken = 0.0f, timerRepair = 0.0f;
+    private float timerBrocken = 0.0f;
+    private float timerRepair = 0.0f;
 
     [SerializeField] private string bickName = "none";
     [SerializeField] private BrickState brickState = BrickState.Intact;
@@ -44,7 +45,7 @@ public class UndergroundBrick : MonoBehaviour
         {
             timerBrocken = 0.0f;
         }
-        else if (tmpBrickState == BrickState.Repair)
+        else if (tmpBrickState == BrickState.RepairActive)
         {
             timerRepair = 0.0f;
         }
@@ -79,7 +80,7 @@ public class UndergroundBrick : MonoBehaviour
     {
         gameObject.SetActive(false);
         transform.localPosition = initPosRepairBrick;
-        SetBrickState(BrickState.Waiting);
+        SetBrickState(BrickState.RepairInactive);
         GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
         Debug.Log("---------------------------------------------------------- reset Repair Brick");
     }
@@ -109,7 +110,7 @@ public class UndergroundBrick : MonoBehaviour
 
     private void SetBrickColliders()
     {
-        if (brickState == BrickState.Repair || brickState == BrickState.Waiting)
+        if (brickState == BrickState.RepairActive || brickState == BrickState.RepairInactive)
         {
             colliderInner.enabled = true;
             colliderOuter.enabled = true;
@@ -166,7 +167,7 @@ public class UndergroundBrick : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (brickState == BrickState.Repair && collision.GetComponentInParent<UndergroundBrick>().GetBrickState() == BrickState.Destroyed)
+        if (brickState == BrickState.RepairActive && collision.GetComponentInParent<UndergroundBrick>().GetBrickState() == BrickState.Destroyed)
         {
             gameObject.GetComponent<UndergroundBrick>().restoreOnHold = true;
             collision.GetComponentInParent<UndergroundBrick>().restoreOnHold = true;
@@ -205,7 +206,7 @@ public class UndergroundBrick : MonoBehaviour
             restoreRepairBrick = false;
         }
 
-        if (brickState == BrickState.Repair && restoreRepairBrick)
+        if (brickState == BrickState.RepairActive && restoreRepairBrick)
         {
             restoreWallBrick = true;
             restoreRepairBrick = false;
@@ -217,14 +218,14 @@ public class UndergroundBrick : MonoBehaviour
 
     private void SetBrickColor()
     {
-        if (brickState == BrickState.Waiting && switchState)
+        if (brickState == BrickState.RepairInactive && switchState)
         {
             GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
             gameObject.GetComponent<Image>().color = Color.gray;
             switchState = false;
 
         }
-        else if (brickState == BrickState.Repair && switchState)
+        else if (brickState == BrickState.RepairActive && switchState)
         {
             gameObject.GetComponent<Image>().color = Color.yellow;
             switchState = false;
