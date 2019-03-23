@@ -3,6 +3,7 @@ using UnityEngine.UI;
 
 public class RepairBrickSpawner : MonoBehaviour
 {
+    private bool testing = true;
     public UndergroundBrick brick;
     public GameObject parentContainer;
     float timer = 0.0f;
@@ -25,8 +26,11 @@ public class RepairBrickSpawner : MonoBehaviour
             if (!spawnableObjects[i].activeSelf && spawnableObjects[i].GetComponent<UndergroundBrick>().GetBrickState() == UndergroundBrick.BrickState.Waiting)
             {
                 spawnableObjects[i].gameObject.GetComponent<UndergroundBrick>().SetBrickState(UndergroundBrick.BrickState.Repair);
-                spawnableObjects[i].transform.localPosition = new Vector3(Random.Range(0f, 1180f), 1225f, -0.1f);
-                //spawnableObjects[i].gameObject.transform.localPosition = new Vector3(0.0f, 1225f, -0.1f);
+                //spawnableObjects[i].transform.localPosition = new Vector3(Random.Range(0f, 1180f), 1225f, -0.1f);
+                if (testing)
+                {
+                    spawnableObjects[i].gameObject.transform.localPosition = new Vector3(0.0f, 1225f, -0.1f);
+                }
                 spawnableObjects[i].gameObject.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
                 spawnableObjects[i].gameObject.SetActive(true);
 

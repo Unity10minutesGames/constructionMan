@@ -2,6 +2,7 @@
 
 public class BrickManager : MonoBehaviour
 {
+    private bool testing = true;
     private float timer;
     private int maxBrickY = 3;
     private int maxBrickX = 10;
@@ -82,20 +83,29 @@ public class BrickManager : MonoBehaviour
         {
             tempindex++;
             timer = 0.0f;
-            ChangeStateToRandomUndergroundBrick(UndergroundBrick.BrickState.Brocken);
-            if (tempindex == 0)
+            if (!testing)
             {
-                SetBrickBrocken(0, 2);
-                SetBrickDestroyed(0, 2);
-            } else if (tempindex == 1)
-            {
-                SetBrickBrocken(0, 1);
-                SetBrickDestroyed(0, 1);
-            }else if (tempindex == 2)
-            {
-                SetBrickBrocken(0, 0);
-                SetBrickDestroyed(0, 0);
+                ChangeStateToRandomUndergroundBrick(UndergroundBrick.BrickState.Brocken);
             }
+            if (testing)
+            {
+                if (tempindex == 0)
+                {
+                    SetBrickBrocken(0, 2);
+                    SetBrickDestroyed(0, 2);
+                }
+                else if (tempindex == 1)
+                {
+                    SetBrickBrocken(0, 1);
+                    SetBrickDestroyed(0, 1);
+                }
+                else if (tempindex == 2)
+                {
+                    SetBrickBrocken(0, 0);
+                    SetBrickDestroyed(0, 0);
+                }
+            }
+           
             
         }
     }
