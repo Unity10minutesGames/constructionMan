@@ -14,6 +14,8 @@ public class UndergroundBrick : MonoBehaviour
     private float timerRepair = 0.0f;
 
     [SerializeField] private string brickName = "none";
+
+    //Default state
     [SerializeField] private BrickState brickState = BrickState.Intact;
 
     public bool restoreRepairBrick = false;
