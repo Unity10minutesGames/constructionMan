@@ -2,7 +2,7 @@
 
 public class BrickManager : MonoBehaviour
 {
-    private bool testing = true;
+    private bool testing = false;
     private float timer;
     private int maxBrickY = 3;
     private int maxBrickX = 10;
