@@ -38,6 +38,7 @@ GameObject:
   m_Component:
   - component: {fileID: 224836890803266144}
   - component: {fileID: 61724340913210342}
+  - component: {fileID: 251210962271029236}
   m_Layer: 5
   m_Name: ColliderOuter
   m_TagString: Untagged
@@ -96,7 +97,7 @@ BoxCollider2D:
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_UsedByEffector: 0
+  m_UsedByEffector: 1
   m_UsedByComposite: 0
   m_Offset: {x: -0.011245728, y: -0.26184845}
   m_SpriteTilingProperty:
@@ -149,7 +150,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d90ec6f242ab3d4bb2a37140642f706, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  brickName: none
   brickState: 0
+  restoreRepairBrick: 0
+  restoreWallBrick: 0
+  restoreOnHold: 0
+  safeForPlayer: 0
 --- !u!222 &222950521091746356
 CanvasRenderer:
   m_ObjectHideFlags: 1
@@ -213,3 +219,21 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!251 &251210962271029236
+PlatformEffector2D:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1599704290050070}
+  m_Enabled: 1
+  m_UseColliderMask: 1
+  m_ColliderMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RotationalOffset: 0
+  m_UseOneWay: 0
+  m_UseOneWayGrouping: 0
+  m_SurfaceArc: 180
+  m_UseSideFriction: 0
+  m_UseSideBounce: 0
+  m_SideArc: 1

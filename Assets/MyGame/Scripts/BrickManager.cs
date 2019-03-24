@@ -61,6 +61,7 @@ public class BrickManager : MonoBehaviour
 
     private void SetBrickBrocken(int row, int column)
     {
+        Debug.Log("UG Name Brick Brocken" + underground[row, column].name);
         if (underground[row, column].GetComponent<UndergroundBrick>().GetBrickState() == UndergroundBrick.BrickState.Intact)
         {
             underground[row, column].GetComponent<UndergroundBrick>().SwitchState(UndergroundBrick.BrickState.Brocken);

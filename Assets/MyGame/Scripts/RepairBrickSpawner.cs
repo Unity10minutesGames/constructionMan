@@ -7,7 +7,7 @@ public class RepairBrickSpawner : MonoBehaviour
     public UndergroundBrick brick;
     public GameObject parentContainer;
     float timer = 0.0f;
-    float delay = 4.0f;
+    float spawnDelay = 4.0f;
     int maxSpawnableObjects = 5;
     int indexRepairBrick = 0;
 
@@ -16,6 +16,11 @@ public class RepairBrickSpawner : MonoBehaviour
     private void Start()
     {
         spawnableObjects = GetSpawnableObjectPool(maxSpawnableObjects);
+    }
+
+    public void DoSetSpawnDelay(float delay)
+    {
+        spawnDelay = delay;
     }
 
     public void spawnRepairBrick()
@@ -31,6 +36,7 @@ public class RepairBrickSpawner : MonoBehaviour
                     spawnableObjects[i].gameObject.transform.localPosition = new Vector3(0.0f, 1225f, -0.1f);
                 }
                 spawnableObjects[i].gameObject.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
+                spawnableObjects[i].gameObject.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeRotation;
                 spawnableObjects[i].gameObject.SetActive(true);
                 return;
             }
@@ -61,7 +67,7 @@ public class RepairBrickSpawner : MonoBehaviour
 	
 	void Update () {
         timer += Time.deltaTime;
-        if (timer > delay)
+        if (timer > spawnDelay)
         {
             spawnRepairBrick();
             timer = 0.0f;

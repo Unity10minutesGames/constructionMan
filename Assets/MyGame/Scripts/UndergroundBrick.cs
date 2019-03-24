@@ -7,6 +7,9 @@ public class UndergroundBrick : MonoBehaviour
 
     private const string COLLIDERINNER = "ColliderInner";
     private const string COLLIDEROUTER = "ColliderOuter";
+    private const string BOTTOMFLOOR = "BottomFloor";
+    private const string COLLIDERLEFT = "ColliderLeft";
+    private const string COLLIDERRIGHT = "ColliderRight";
     private const float delayToRepair = 5.0f;
     private Image img;
     private BoxCollider2D colliderOuter = null;
@@ -24,6 +27,7 @@ public class UndergroundBrick : MonoBehaviour
     public bool restoreRepairBrick = false;
     public bool restoreWallBrick = false;
     public bool restoreOnHold = false;
+    public bool safeForPlayer = false;
 
     void Start ()
     {
@@ -141,26 +145,49 @@ public class UndergroundBrick : MonoBehaviour
 
     private void OnTriggerExit2D (Collider2D collision)
     {
+        Debug.Log("OnTriggerExit2D "+collision.name);
         gameObject.GetComponent<UndergroundBrick>().restoreOnHold = false;
-        collision.GetComponentInParent<UndergroundBrick>().restoreOnHold = false;
-
-        if (restoreWallBrick)
+        if(collision.name == BOTTOMFLOOR || collision.name == COLLIDERLEFT || collision.name == COLLIDERRIGHT || collision.name == COLLIDEROUTER)
         {
-            UndergroundBrick ubrick = collision.gameObject.GetComponentInParent<UndergroundBrick>();
-            DoResetRepairBrick ();
-            restoreWallBrick = false;
-            ubrick.SwitchState (BrickState.Intact);
-            ubrick.restoreRepairBrick = false;
+
         }
+        else
+        {
+            collision.GetComponentInParent<UndergroundBrick>().restoreOnHold = false;
+
+            if (restoreWallBrick)
+            {
+                UndergroundBrick ubrick = collision.gameObject.GetComponentInParent<UndergroundBrick>();
+                DoResetRepairBrick();
+                restoreWallBrick = false;
+                ubrick.SwitchState(BrickState.Intact);
+                ubrick.restoreRepairBrick = false;
+            }
+        }
+       
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        Debug.Log(gameObject.GetComponent<UndergroundBrick>().GetName() + " " + collision.name);
     }
 
     private void OnTriggerStay2D (Collider2D collision)
     {
-        if (brickState == BrickState.RepairActive && collision.GetComponentInParent<UndergroundBrick>().GetBrickState () == BrickState.Destroyed)
+        Debug.Log("OnTriggerEnter2D " + collision.name);
+        if (collision.name == BOTTOMFLOOR || collision.name == COLLIDERLEFT || collision.name == COLLIDERRIGHT || collision.name == COLLIDEROUTER)
         {
-            gameObject.GetComponent<UndergroundBrick>().restoreOnHold = true;
-            collision.GetComponentInParent<UndergroundBrick>().restoreOnHold = true;
+
         }
+        else
+        {
+            if (brickState == BrickState.RepairActive && collision.GetComponentInParent<UndergroundBrick>().GetBrickState() == BrickState.Destroyed)
+            {
+                gameObject.GetComponent<UndergroundBrick>().restoreOnHold = true;
+                collision.GetComponentInParent<UndergroundBrick>().restoreOnHold = true;
+            }
+        }
+
     }
 
     private void DoSetSpecialBrickProperties (BrickState tmpState)
@@ -172,6 +199,7 @@ public class UndergroundBrick : MonoBehaviour
                 break;
             case BrickState.Intact:
                 colliderOuter.enabled = true;
+                safeForPlayer = true;
                 break;
         }
     }
